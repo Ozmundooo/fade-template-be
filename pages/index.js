@@ -76,7 +76,7 @@ const MOBILE_POSITIONS = [
 ];
 
 export async function getStaticProps() {
-  const [home, work] = await Promise.all([
+  const [home, work, settings] = await Promise.all([
     client.fetch(
       `*[_type == "home" && _id == "home"][0]{
         brandName,
@@ -92,9 +92,15 @@ export async function getStaticProps() {
         slug,
       }`,
     ),
+    client.fetch(`*[_type == "settings" && _id == "settings"][0]{
+      ...
+    }`),
   ]);
 
-  return { props: { home: home || null, work }, revalidate: 360 };
+  return {
+    props: { home: home || null, work, settings: settings || null },
+    revalidate: 360,
+  };
 }
 
 function ScatterImage({ src, alt, pos, delay, viewport }) {
@@ -125,7 +131,7 @@ function ScatterImage({ src, alt, pos, delay, viewport }) {
   );
 }
 
-export default function Home({ home, work = [] }) {
+export default function Home({ home, work = [], settings }) {
   const viewport = useViewport();
   const brandName = home?.brandName || HOME_DEFAULTS.brandName;
   const brandDescription = home?.description || HOME_DEFAULTS.description;
@@ -177,7 +183,7 @@ export default function Home({ home, work = [] }) {
           imageAlt={brandName}
         />
         <main className="bg-brand-white relative min-h-screen flex items-center justify-center p-5">
-          <Navbar />
+          <Navbar settings={settings} />
           <p className="text-sm uppercase tracking-[0.3em] opacity-70">
             No images found.
           </p>
@@ -196,7 +202,7 @@ export default function Home({ home, work = [] }) {
         imageUrl={seoImageUrl}
         imageAlt={brandName}
       />
-      <Navbar />
+      <Navbar settings={settings} />
       <motion.div
         className="fixed bottom-4 md:bottom-8 left-4 md:left-8 z-10 pointer-events-none max-w-[90vw] md:max-w-2xl"
         initial={{ opacity: 0, y: 20 }}

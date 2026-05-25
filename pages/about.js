@@ -25,21 +25,27 @@ function isExternalLink(url = "") {
 }
 
 export async function getStaticProps() {
-  const about = await client.fetch(
-    `*[_type == "about" && _id == "about"][0]{
-      pageTitle,
-      biography,
-      featureImage,
-      portraitImage,
-      socialLinks,
-      seo
-    }`,
-  );
+  const [about, settings] = await Promise.all([
+    client.fetch(
+      `*[_type == "about" && _id == "about"][0]{
+        pageTitle,
+        biography,
+        featureImage,
+        portraitImage,
+        socialLinks,
+        seo
+      }`,
+    ),
+    client.fetch(`*[_type == "settings" && _id == "settings"][0]{ ... }`),
+  ]);
 
-  return { props: { about: about || null }, revalidate: 360 };
+  return {
+    props: { about: about || null, settings: settings || null },
+    revalidate: 360,
+  };
 }
 
-export default function About({ about }) {
+export default function About({ about, settings }) {
   const pageTitle = about?.pageTitle || ABOUT_DEFAULTS.pageTitle;
   const biography = about?.biography || ABOUT_DEFAULTS.biography;
   const socialLinks = about?.socialLinks?.length
@@ -65,7 +71,7 @@ export default function About({ about }) {
         imageUrl={seoImageUrl}
         imageAlt={about?.seo?.image?.alt || pageTitle}
       />
-      <Navbar />
+      <Navbar settings={settings} />
       <div className="grid lg:grid-cols-2 gap-8 h-screen  mx-4 md:mx-8">
         <div className="flex flex-col justify-between h-screen">
           <div className=" flex flex-col justify-between h-full pt-20 md:pt-20">

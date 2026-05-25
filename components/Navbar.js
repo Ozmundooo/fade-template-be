@@ -9,10 +9,7 @@ const NAV_LINKS = [
   { label: "Gallery", href: "/gallery" },
 ];
 
-const SOCIAL_LINKS = [
-  { label: "Instagram", href: "#", external: true },
-  { label: "Contact", href: "/contact" },
-];
+const SOCIAL_LINKS = [{ label: "Contact", href: "/contact" }];
 
 const menuVariants = {
   closed: {
@@ -43,7 +40,7 @@ const itemVariants = {
   }),
 };
 
-export default function Navbar() {
+export default function Navbar({ settings }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -82,6 +79,14 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <a
+            key="Instagram"
+            href={settings?.instagramLinkInNav}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
           {SOCIAL_LINKS.map((l) =>
             l.external ? (
               <a key={l.label} href={l.href} target="_blank" rel="noreferrer">

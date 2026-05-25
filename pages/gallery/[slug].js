@@ -6,40 +6,33 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Metadata from "@/components/Metadata";
 
-export async function getStaticPaths() {
-  const works = await client.fetch(`*[_type == "work"] { slug }`);
-  const paths = works
-    .filter((w) => w.slug?.current)
-    .map((w) => ({ params: { slug: w.slug.current } }));
-
-  return { paths, fallback: "blocking" };
-}
-
-export async function getStaticProps({ params }) {
-  const work = await client.fetch(
-    `*[_type == "work" && slug.current == $slug][0] {
-      _id,
-      title,
-      image,
-      slug,
-      publishedAt,
-      description,
-      seo,
-    }`,
-    { slug: params.slug },
-  );
+export async function getServerSideProps({ params }) {
+  const [work, settings] = await Promise.all([
+    client.fetch(
+      `*[_type == "work" && slug.current == $slug][0] {
+        _id,
+        title,
+        image,
+        slug,
+        publishedAt,
+        description,
+        seo,
+      }`,
+      { slug: params.slug },
+    ),
+    client.fetch(`*[_type == "settings" && _id == "settings"][0]{ ... }`),
+  ]);
 
   if (!work) {
     return { notFound: true };
   }
 
   return {
-    props: { work },
-    revalidate: 360,
+    props: { work, settings: settings || null },
   };
 }
 
-export default function WorkDetail({ work }) {
+export default function WorkDetail({ work, settings }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const seoTitle = work.seo?.title || `${work.title} | bish.`;
   const seoDescription =
@@ -73,7 +66,7 @@ export default function WorkDetail({ work }) {
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
         className="bg-brand-white relative h-screen pt-10 overflow-hidden"
       >
-        <Navbar activePage="work" />
+        <Navbar activePage="work" settings={settings} />
 
         <div className="md:hidden flex flex-col h-[calc(100vh-2.5rem)] pt-5">
           <div className="relative h-[90%]">

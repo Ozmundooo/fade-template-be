@@ -95,7 +95,7 @@ function ImageItem({
 }
 
 export async function getStaticProps() {
-  const [gallery, work] = await Promise.all([
+  const [gallery, work, settings] = await Promise.all([
     client.fetch(
       `*[_type == "gallery" && _id == "gallery"][0]{
         pageTitle,
@@ -112,20 +112,21 @@ export async function getStaticProps() {
         image
       }`,
     ),
+    client.fetch(`*[_type == "settings" && _id == "settings"][0]{ ... }`),
   ]);
 
   return {
     props: {
       gallery: gallery || null,
       work,
+      settings: settings || null,
     },
     revalidate: 360,
   };
 }
 
-export default function GalleryPage({ gallery, work = [] }) {
-  const [containerEl, setContainerEl] = useState(null);
-  const containerRef = useMemo(() => ({ current: containerEl }), [containerEl]);
+export default function GalleryPage({ gallery, work = [], settings }) {
+  const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const pageTitle = gallery?.pageTitle || GALLERY_DEFAULTS.pageTitle;
 
@@ -176,29 +177,28 @@ export default function GalleryPage({ gallery, work = [] }) {
         imageAlt={gallery?.seo?.image?.alt || pageTitle}
       />
       <motion.main
-        ref={setContainerEl}
+        ref={containerRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
         className="bg-brand-white relative h-screen px-8 pt-14 overflow-y-auto snap-y snap-mandatory"
       >
-        <Navbar activePage="work" />
+        <Navbar activePage="work" settings={settings} />
         {total ? (
           <div className="max-w-sm mx-auto ">
             <div className="snap-center flex items-center justify-center h-[30vh] lg:h-[20vh] pointer-events-none" />
-            {containerEl &&
-              visibleWork.map((item, index) => (
-                <ImageItem
-                  key={`${item._id}-${index}`}
-                  image={item.image[0]}
-                  title={item.title}
-                  slug={item.slug.current}
-                  index={index}
-                  scrollContainerRef={containerRef}
-                  onInView={handleInView}
-                />
-              ))}
+            {visibleWork.map((item, index) => (
+              <ImageItem
+                key={`${item._id}-${index}`}
+                image={item.image[0]}
+                title={item.title}
+                slug={item.slug.current}
+                index={index}
+                scrollContainerRef={containerRef}
+                onInView={handleInView}
+              />
+            ))}
             <div className="snap-center flex items-center justify-center h-[30vh] lg:h-[20vh] pointer-events-none" />
           </div>
         ) : (
