@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Franie ─────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Hair.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-HairItalic.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-ExtraLight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-ExtraLightItalic.woff") format("woff");
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-SemiLight.woff") format("woff");
+  font-weight: 350;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-SemiLightItalic.woff") format("woff");
+  font-weight: 350;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-SemiBoldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-ExtraBoldItalic.woff") format("woff");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Franie";
+  src: url("/Franie-BlackItalic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* ── JUST Sans ──────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans ExLight.woff2") format("woff2"),
+    url("/JUST Sans ExLight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans Light.woff2") format("woff2"),
+    url("/JUST Sans Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans Regular.woff2") format("woff2"),
+    url("/JUST Sans Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans Medium.woff2") format("woff2"),
+    url("/JUST Sans Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans SemiBold.woff2") format("woff2"),
+    url("/JUST Sans SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans Bold.woff2") format("woff2"),
+    url("/JUST Sans Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Just Sans";
+  src:
+    url("/JUST Sans ExBold.woff2") format("woff2"),
+    url("/JUST Sans ExBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Brand color palette */
+  --color-brand-white: #eee5da;
+  --color-brand-black: #262424;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Custom fonts */
+  --font-title: "Franie", sans-serif;
+  --font-body: "Just Sans", sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #eee5da;
+  color: var(--color-brand-black);
   font-family: Arial, Helvetica, sans-serif;
 }

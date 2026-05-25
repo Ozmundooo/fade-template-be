@@ -9,7 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.2.6",
+    "@sanity/client": "^7.22.0",
+    "@sanity/image-url": "^2.1.1",
+    "@studio-freight/lenis": "^1.0.42",
+    "framer-motion": "^12.38.0",
+    "next": "^16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },

@@ -2,6 +2,9 @@
 const nextConfig = {
   /* config options here */
   reactStrictMode: true,
+  images: {
+    domains: ["cdn.sanity.io"],
+  },
 };
 
 export default nextConfig;
